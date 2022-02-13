@@ -24,28 +24,30 @@ public sealed class FirestoreDbRepository : IXmlRepository
     {
         HashSet<XElement> results = new();
         DocumentSnapshot? current_snapshot = null;
-        try
+
+        CollectionReference collection_reference = _db.Collection(nameof(DataProtectionKey));
+        IAsyncEnumerable<DocumentSnapshot> document_reference = collection_reference.StreamAsync();
+        await foreach (DocumentSnapshot snapshot in document_reference)
         {
-            CollectionReference collection_reference = _db.Collection(nameof(DataProtectionKey));
-            IAsyncEnumerable<DocumentSnapshot> document_reference = collection_reference.StreamAsync();
-            await foreach (DocumentSnapshot snapshot in document_reference)
+            if (snapshot.Exists is false) { continue; }
+            current_snapshot = snapshot;
+            try
             {
-                if (snapshot.Exists is false) { continue; }
-                current_snapshot = snapshot;
                 IDataProtectionKey key = snapshot.ConvertTo<DataProtectionKey>();
                 XElement element = XElement.Parse(key.Value);
                 results.Add(element);
             }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            if (_remove_snapshots_that_fail_to_parse is true && current_snapshot is not null)
+            catch (Exception ex)
             {
-                string friendly_name = current_snapshot.Reference.Path.Split(Path.AltDirectorySeparatorChar).Last();
-                await RemoveElementAsync(friendly_name);
+                Debug.WriteLine(ex.Message);
+                if (_remove_snapshots_that_fail_to_parse is true && current_snapshot is not null)
+                {
+                    string friendly_name = current_snapshot.Reference.Path.Split(Path.AltDirectorySeparatorChar).Last();
+                    await RemoveElementAsync(friendly_name);
+                }
             }
         }
+
         return results;
     }
 
