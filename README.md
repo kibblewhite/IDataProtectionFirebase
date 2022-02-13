@@ -1,6 +1,8 @@
 # IDataProtectionFirebase
 A .NET library for IDataProtection to store keys in a Google Firebase instance.
 
+https://github.com/kibblewhite/IDataProtectionFirebase
+
 ## Getting Started
 
 Follow the examples below to see how the library can be integrated into your application.
