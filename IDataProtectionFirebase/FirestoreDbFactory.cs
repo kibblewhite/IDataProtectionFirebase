@@ -20,7 +20,8 @@ public sealed class FirestoreDbFactory
     internal FirestoreDb CreateInstance()
     {
         FirestoreClientBuilder firestore_client_builder = new() { JsonCredentials = JsonCredentials };
-        FirestoreDb db = FirestoreDb.Create(ProjectId, firestore_client_builder.Build());
+        FirestoreClient firestore_client = firestore_client_builder.Build();
+        FirestoreDb db = FirestoreDb.Create(ProjectId, firestore_client);
         return db;
     }
 
