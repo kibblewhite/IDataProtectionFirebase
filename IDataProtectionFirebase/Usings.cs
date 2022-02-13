@@ -1,0 +1,12 @@
+﻿global using Google.Cloud.Firestore;
+global using Google.Cloud.Firestore.V1;
+global using IDataProtectionFirebase;
+global using Microsoft.AspNetCore.DataProtection;
+global using Microsoft.AspNetCore.DataProtection.KeyManagement;
+global using Microsoft.AspNetCore.DataProtection.Repositories;
+global using Microsoft.Extensions.DependencyInjection.Extensions;
+global using Microsoft.Extensions.Options;
+global using System.Diagnostics;
+global using System.Runtime.CompilerServices;
+global using System.Text.Json.Serialization;
+global using System.Xml.Linq;

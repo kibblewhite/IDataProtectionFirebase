@@ -1,0 +1,12 @@
+﻿global using Google.Cloud.Firestore;
+global using IDataProtectionFirebase;
+global using Microsoft.AspNetCore.DataProtection;
+global using Microsoft.AspNetCore.DataProtection.KeyManagement;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using System;
+global using System.IO;
+global using System.Reflection;
+global using System.Xml.Linq;
