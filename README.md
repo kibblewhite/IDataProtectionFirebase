@@ -57,3 +57,5 @@ Check out the three unit tests and scan through the `appsettings.Test.json`.
 
 You can also use the `sample-json-credentials.json` as reference.
 
+
+dotnet nuget push IDataProtectionFirebase\bin\Release\net6.0\publish\IDataProtectionFirebase.1.1.1.1.nupkg -k [api-key-here /] -s https://api.nuget.org/v3/index.json
