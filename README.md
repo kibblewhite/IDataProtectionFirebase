@@ -1,7 +1,8 @@
 # IDataProtectionFirebase
 A .NET library for IDataProtection to store keys in a Google Firebase instance.
 
-https://github.com/kibblewhite/IDataProtectionFirebase
+GitHub Repository URL: https://github.com/kibblewhite/IDataProtectionFirebase
+
 
 ## Getting Started
 
@@ -11,40 +12,42 @@ Follow the examples below to see how the library can be integrated into your app
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddDataProtection()
-        .SetApplicationName(Assembly.GetExecutingAssembly().FullName!)
-        .PersistKeysToFirebase(service_name, json_credentials, project_id);
+        .PersistKeysToFirebase(service_name, json_credentials);
 
     services.AddMvc();
 }
 ```
 
-### Service Name
 
-The `service_name` is to help you identify the data entries in the [firebase database](https://console.firebase.google.com/)
+If the FirestoreDb instance is already in the running assembly's service collection ready for DI, then the following code can be used:
+The library will throw an ArgumentNullException if the FirestoreDb can not be located.
 
-### Project ID
-
-The `project_id` is provided by google:
-- https://cloud.google.com/resource-manager/docs/creating-managing-projects
-
-#### Unit Test
-
-You will also need to update the `ProjectId` field inside of the `appsettings.Test.json`
-
-```json
+```csharp
+public void ConfigureServices(IServiceCollection services)
 {
-  "ProjectId": "project-id-from-gcp-firebase"
+    service_container.AddDataProtection()
+        .PersistKeysToFirebase(service_name);
+
+    services.AddMvc();
 }
 ```
 
+To see a examples of this code, please visit the `UnitTests.cs` within the Tests project. If you wish to run the unit tests, you will need to have a valid `credentials.json` in the unit test project directory that has access to your Firebase DB instance from GCP.
+
+### Service Name
+
+The `service_name` can be any "reasonable" string value that you wish. It is to help you identify the data entries in the [firebase database](https://console.firebase.google.com/)
+
+
 ### JSON Credentials
 
-You will also need to create a service account key in the form of a JSON key file (credentials.json)
+You will also need to create a service account key (which has access to the Firebase DB) in the form of a JSON key file (credentials.json)
 
 Read this into the `json_credentials` variable.
 
 You can get this from the Google Cloud Platform console (GCP), for more information on this read the following:
 - https://cloud.google.com/docs/authentication/getting-started
+
 
 ## Getting Help
 
@@ -53,12 +56,10 @@ Unfortunately it is only me, feel free to submit bug reports or feature requests
 
 ### Note
 
-Check out the three unit tests and scan through the `appsettings.Test.json`.
-
-You can also use the `sample-json-credentials.json` as reference.
+Check out the unit tests and you can also use the `credentials.sample.json` as reference.
 
 
-This is just a note to remind me of the nuget publish command:
+This is just a note more for me than for you, to remind me of the nuget publish command:
 ```bash
 dotnet nuget push IDataProtectionFirebase\bin\Release\net6.0\publish\IDataProtectionFirebase.*.nupkg -k [api-key-here /] -s https://api.nuget.org/v3/index.json
 ```

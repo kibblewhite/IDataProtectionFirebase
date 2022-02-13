@@ -4,11 +4,23 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.1.1.2</Version>
+		<Version>1.1.1.4</Version>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>kibblewhite &lt;kibblewhite@live.com&gt;</Authors>
+		<Description>A .NET library for IDataProtection to store keys in a Google Firebase instance.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>IDataProtectionFirebase.png</PackageIcon>
+		<RepositoryUrl>https://github.com/kibblewhite/IDataProtectionFirebase</RepositoryUrl>
+		<PackageTags>IDataProtectionFirebase;IDataProtection;Firebase;DataProtectionFirebase;DataProtection</PackageTags>
+		<AssemblyVersion>1.1.1.4</AssemblyVersion>
+		<FileVersion>1.1.1.4</FileVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\README.md" Link="README.md" pack="true" PackagePath="." />
+		<None Include="..\IDataProtectionFirebase.png" Link="IDataProtectionFirebase.png" pack="true" PackagePath="\" />
+		<None Include="..\LICENSE" Link="LICENSE" pack="true" PackagePath="\" />
+		<None Include="..\README.md" Link="README.md" pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,34 +1,13 @@
 namespace Test;
 
-/// <summary>
-/// Please ensure that you have set the ProjectId correctly in the "appsettings.Tests.json" file
-/// </summary>
 [TestClass]
 public class UnitTests
 {
 
-    protected const string default_app_settings_json_filename = "appsettings.Tests.json";
     protected const string service_name = "IDataProtectionFirebase.UnitTest";
-    protected IConfiguration? configuration;
-    protected string? project_id;
-
-    [TestInitialize]
-    public void TestInitialize()
-    {
-        configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)     // Assembly Microsoft.Extensions.Configuration.FileExtensions
-            .AddJsonFile(default_app_settings_json_filename).Build();  // Assembly Microsoft.Extensions.Configuration.Json
-
-        project_id = configuration["ProjectId"];
-        if (project_id.Equals("project-id-from-gcp-firebase") is true)
-        {
-            throw new InvalidOperationException("Please ensure that you have set the ProjectId correctly in the \"appsettings.Tests.json\" file. Also read the README.md for more details.");
-        }
-    }
-
 
     [TestMethod]
-    public void BasicIntergratedTest()
+    public void BasicIntegratedTest()
     {
 
         IServiceCollection service_container = new ServiceCollection();
@@ -36,7 +15,7 @@ public class UnitTests
         string json_credentials = ReadGoogleJsonCredentialsFile();
         service_container
             .AddDataProtection()
-            .PersistKeysToFirebase(service_name, json_credentials, project_id ?? string.Empty, true);
+            .PersistKeysToFirebase(service_name, json_credentials, true);
 
         ServiceProvider service_provider = service_container.BuildServiceProvider();
         IConfigureOptions<KeyManagementOptions>? key_management_options = service_provider.GetRequiredService<IConfigureOptions<KeyManagementOptions>>();
@@ -47,10 +26,33 @@ public class UnitTests
     }
 
     [TestMethod]
+    public void FirestoreIntegratedTest()
+    {
+        IServiceCollection service_container = new ServiceCollection();
+
+        string json_credentials = ReadGoogleJsonCredentialsFile();
+        Project? project = JsonSerializer.Deserialize<Project>(json_credentials);
+
+        service_container.TryAddFirestoreDb(json_credentials, project?.Id ?? string.Empty);
+
+        service_container
+            .AddDataProtection()
+            .PersistKeysToFirebase(service_name);
+
+        ServiceProvider service_provider = service_container.BuildServiceProvider();
+        IConfigureOptions<KeyManagementOptions>? key_management_options = service_provider.GetRequiredService<IConfigureOptions<KeyManagementOptions>>();
+
+        Assert.IsNotNull(key_management_options);
+        AssertDataProtectUnprotect(service_provider);
+    }
+
+    [TestMethod]
     public void FirestoreDbFactoryTest()
     {
         string json_credentials = ReadGoogleJsonCredentialsFile();
-        FirestoreDbFactory factory = new(json_credentials, project_id ?? string.Empty);
+        Project? project = JsonSerializer.Deserialize<Project>(json_credentials);
+
+        FirestoreDbFactory factory = new(json_credentials, project?.Id ?? string.Empty);
         FirestoreDb? firestore_db = factory.CreateInstance();
         Assert.IsNotNull(firestore_db);
     }
@@ -60,7 +62,9 @@ public class UnitTests
     public void FirestoreDbRepositoryTest()
     {
         string json_credentials = ReadGoogleJsonCredentialsFile();
-        FirestoreDbFactory factory = new(json_credentials, project_id ?? string.Empty);
+        Project? project = JsonSerializer.Deserialize<Project>(json_credentials);
+
+        FirestoreDbFactory factory = new(json_credentials, project?.Id ?? string.Empty);
         FirestoreDb? firestore_db = factory.CreateInstance();
         ArgumentNullException.ThrowIfNull(firestore_db, nameof(firestore_db));
 
@@ -78,6 +82,13 @@ public class UnitTests
         Assert.IsNotNull(write_result.UpdateTime);
     }
 
+    [TestMethod]
+    public void SimpleJsonTest()
+    {
+        string json_credentials = ReadGoogleJsonCredentialsFile();
+        Project? project = JsonSerializer.Deserialize<Project>(json_credentials);
+        Assert.IsNotNull(project?.Id);
+    }
 
     private static void AssertDataProtectUnprotect(ServiceProvider services)
     {

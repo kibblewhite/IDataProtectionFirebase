@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8FA363A-0C44-4F1E-B0B3-ADBD023F44AD}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		IDataProtectionFirebase\IDataProtectionFirebase.png = IDataProtectionFirebase\IDataProtectionFirebase.png
 		LICENSE = LICENSE
 		nuget-publish-command.txt = nuget-publish-command.txt
 		README.md = README.md
