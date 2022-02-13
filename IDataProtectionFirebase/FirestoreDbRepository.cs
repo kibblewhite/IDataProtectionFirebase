@@ -25,8 +25,8 @@ public sealed class FirestoreDbRepository : IXmlRepository
         HashSet<XElement> results = new();
         DocumentSnapshot? current_snapshot = null;
 
-        CollectionReference collection_reference = _db.Collection(nameof(DataProtectionKey));
-        IAsyncEnumerable<DocumentSnapshot> document_reference = collection_reference.StreamAsync();
+        Query collection_query = _db.Collection(nameof(DataProtectionKey)).WhereEqualTo(nameof(DataProtectionKey.ServiceName), _service_name);
+        IAsyncEnumerable<DocumentSnapshot> document_reference = collection_query.StreamAsync();
         await foreach (DocumentSnapshot snapshot in document_reference)
         {
             if (snapshot.Exists is false) { continue; }
