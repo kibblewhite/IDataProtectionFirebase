@@ -23,14 +23,12 @@ public sealed class FirestoreDbRepository : IXmlRepository
     private async Task<IReadOnlyCollection<XElement>> GetAllElementsAsync()
     {
         HashSet<XElement> results = new();
-        DocumentSnapshot? current_snapshot = null;
 
         Query collection_query = _db.Collection(nameof(DataProtectionKey)).WhereEqualTo(nameof(DataProtectionKey.ServiceName), _service_name);
         IAsyncEnumerable<DocumentSnapshot> document_reference = collection_query.StreamAsync();
         await foreach (DocumentSnapshot snapshot in document_reference)
         {
             if (snapshot.Exists is false) { continue; }
-            current_snapshot = snapshot;
             try
             {
                 IDataProtectionKey key = snapshot.ConvertTo<DataProtectionKey>();
@@ -40,9 +38,9 @@ public sealed class FirestoreDbRepository : IXmlRepository
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                if (_remove_snapshots_that_fail_to_parse is true && current_snapshot is not null)
+                if (_remove_snapshots_that_fail_to_parse is true && snapshot is not null)
                 {
-                    string friendly_name = current_snapshot.Reference.Path.Split(Path.AltDirectorySeparatorChar).Last();
+                    string friendly_name = snapshot.Reference.Path.Split(Path.AltDirectorySeparatorChar).Last();
                     await RemoveElementAsync(friendly_name);
                 }
             }
