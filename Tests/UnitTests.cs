@@ -71,11 +71,12 @@ public class UnitTests
         FirestoreDbRepository firestore_db_repository = new(firestore_db, service_name, true);
 
         string friendly_name = "TestElement";
-        XElement element = XElement.Parse(@"<xml></xml>");
+        XElement element = XElement.Parse(@$"<xml>{friendly_name}</xml>");
         firestore_db_repository.StoreElement(element, friendly_name);
 
         XElement? retrieved_element = firestore_db_repository.GetElement(friendly_name);
         Assert.IsNotNull(retrieved_element);
+        Assert.AreEqual(element.Value, retrieved_element?.Value);
 
         WriteResult? write_result = firestore_db_repository.RemoveElement(friendly_name);
         Assert.IsNotNull(write_result);
