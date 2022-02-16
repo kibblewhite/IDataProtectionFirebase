@@ -89,6 +89,7 @@ public class UnitTests
         string json_credentials = ReadGoogleJsonCredentialsFile();
         Project? project = JsonSerializer.Deserialize<Project>(json_credentials);
         Assert.IsNotNull(project?.Id);
+        Assert.IsFalse(string.IsNullOrWhiteSpace(project?.Id));
     }
 
     private static void AssertDataProtectUnprotect(ServiceProvider services)
