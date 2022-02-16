@@ -111,3 +111,34 @@ public class UnitTests
     }
 
 }
+
+
+
+/// <summary>
+/// Bonus code: If you read or at least were decent enough to have scanned throught the unit tests and got this far, then here is a little extra treat. It will make integrating that little more slicker.
+/// Don't forget to add the namespace...
+/// </summary>
+/// <remarks>
+/// Usage:
+///   WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+///   builder.Services.AddFirebaseDataProtection(builder.Configuration, "your-service-name-or-identifier", options =>
+///   {
+///       options.NewKeyLifetime = TimeSpan.FromDays(365);
+///       options.AutoGenerateKeys = true;
+///   }).UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+///   {
+///       EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+///       ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+///   });
+/// </remarks>
+public static class IServiceCollectionExtensions
+{
+    public static IDataProtectionBuilder AddFirebaseDataProtection(this IServiceCollection svc, string service_application_name, Action<KeyManagementOptions> key_management_options, string json_credentials) => svc.AddDataProtection()
+            .SetApplicationName(service_application_name)
+            .AddKeyManagementOptions(key_management_options)
+            .PersistKeysToFirebase(
+                service_application_name,
+                json_credentials,
+                true
+            );
+}
