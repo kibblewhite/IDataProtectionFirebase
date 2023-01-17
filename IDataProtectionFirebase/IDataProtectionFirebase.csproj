@@ -5,7 +5,7 @@
 		<LangVersion>11.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.1.1.7</Version>
+		<Version>1.1.1.8</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>kibblewhite &lt;kibblewhite@live.com&gt;</Authors>
 		<Description>A .NET library for IDataProtection to store keys in a Google Firebase instance.</Description>
@@ -13,8 +13,8 @@
 		<PackageIcon>IDataProtectionFirebase.png</PackageIcon>
 		<RepositoryUrl>https://github.com/kibblewhite/IDataProtectionFirebase</RepositoryUrl>
 		<PackageTags>IDataProtectionFirebase;IDataProtection;Firebase;DataProtectionFirebase;DataProtection</PackageTags>
-		<AssemblyVersion>1.1.1.7</AssemblyVersion>
-		<FileVersion>1.1.1.7</FileVersion>
+		<AssemblyVersion>1.1.1.8</AssemblyVersion>
+		<FileVersion>1.1.1.8</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
