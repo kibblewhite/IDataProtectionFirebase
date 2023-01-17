@@ -5,13 +5,13 @@ public sealed class DataProtectionKey : IDataProtectionKey
 {
     [FirestoreProperty]
     [JsonPropertyName("Value")]
-    public string Value { get; init; } = default!;
+    public required string Value { get; init; }
 
     [FirestoreProperty]
     [JsonPropertyName("ServiceName")]
-    public string ServiceName { get; init; } = default!;
+    public required string ServiceName { get; init; }
 
     [FirestoreProperty]
     [JsonPropertyName("DateTimeUtc")]
-    public DateTime DateTimeUtc { get; init; }
+    public required DateTime DateTimeUtc { get; init; }
 }

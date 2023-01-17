@@ -57,7 +57,6 @@ public class UnitTests
         Assert.IsNotNull(firestore_db);
     }
 
-
     [TestMethod]
     public void FirestoreDbRepositoryTest()
     {
@@ -109,10 +108,7 @@ public class UnitTests
         string json_credentials = File.ReadAllText(filepath);
         return json_credentials;
     }
-
 }
-
-
 
 /// <summary>
 /// Bonus code: If you read or at least were decent enough to have scanned throught the unit tests and got this far, then here is a little extra treat. It will make integrating that little more slicker.

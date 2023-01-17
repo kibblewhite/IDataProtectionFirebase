@@ -12,10 +12,7 @@ public sealed class FirestoreDbFactory
         ProjectId = projectId ?? throw new ArgumentNullException(nameof(projectId));
     }
 
-    internal FirestoreDb CreateInstance(IServiceProvider provider)
-    {
-        return CreateInstance();
-    }
+    internal FirestoreDb CreateInstance(IServiceProvider provider) => CreateInstance();
 
     internal FirestoreDb CreateInstance()
     {
@@ -24,6 +21,5 @@ public sealed class FirestoreDbFactory
         FirestoreDb db = FirestoreDb.Create(ProjectId, firestore_client);
         return db;
     }
-
 }
 
